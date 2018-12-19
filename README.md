@@ -6,7 +6,7 @@ Bind DN :- This is the user who is authorized to do search on LDAP directory.
 
 Bind Password: Authorized users password who can search LDAP directory.
 
-ldap url: ldap://<hostname>:389
+ldap url: ldap://hostname:389
   
   
   Search
