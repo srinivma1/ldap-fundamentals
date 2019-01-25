@@ -31,14 +31,21 @@ There you have it, you've been warned.
 2. Accept all the default. Use the BDB (Berkley Database) as the Backend Engine.
 
 3. Your LDAP Server is now running. To see the service just open your Windows Services and search for OpenLDAP Service. If you dont want the service to run automatically everytime the Windows restart, just change it to Manual from the Properties Dialog.
+
 4. Next, install LDAPExplorerTool from http://ldaptool.sourceforge.net/. And try to connect to your LDAP Server using these settings :
 
  a. Server Name or IP : According to your Computer Name or IP
+ 
  b. LDAP Port : 389 ; check the use default checkbox
+ 
  c. LDAP SSL Port : 636 ; check the use default checkbox
+ 
  d. Version : 3 (LDAP ver. 3)
+ 
  e. User DN : cn=Manager,dc=maxcrc,dc=com ; Uncheck the anonymous login.
+ 
  f. Password : secret
+ 
  g. Base DN (Just click the Guess Value button)
  
 For everything else, just accept the default value
@@ -59,10 +66,15 @@ Create a file in C:\App\OpenLDAP\ldifdata, name it step1.ldif. The contents are 
 // this is an ENTRY sequence and is preceded by a BLANK line
 
 dn: dc=maxcrc,dc=com
+
 dc: maxcrc
+
 description: My wonderful company as much text as you want to place
+
 objectClass: dcObject
+
 objectClass: organization
+
 o: Maxcrc, Inc.
 
 // FIRST Level hierarchy - people 
@@ -70,8 +82,11 @@ o: Maxcrc, Inc.
 // this is an ENTRY sequence and is preceded by a BLANK line
 
 dn: ou=people, dc=maxcrc,dc=com
+
 ou: people
+
 description: All people in organisation
+
 objectclass: organizationalunit
 
 // SECOND Level hierarchy
@@ -80,63 +95,112 @@ objectclass: organizationalunit
 // the ou: Human Resources is the department name
 
 dn: cn=Robert Smith,ou=people,dc=maxcrc,dc=com
+
 objectclass: inetOrgPerson
+
 cn: Robert Smith
+
 cn: Robert J Smith
+
 cn: bob  smith
+
 sn: smith
+
 uid: rjsmith
+
 userpassword: rJsmitH
+
 carlicense: HISCAR 123
+
 homephone: 555-111-2222
+
 mail: r.smith@example.com
+
 mail: rsmith@example.com
+
 mail: bob.smith@example.com
+
 description: swell guy
+
 ou: Human Resources
 
 Save the file. And open a command line and run these command 
+
 cd C:\App\OpenLDAP\ClientTools
+
 ldapmodify.exe -a -x -h localhost -p 389 -D "cn=manager,dc=maxcrc,dc=com" -f d:\App\OpenLDAP\ldifdata\step1.ldif -w secret 
 
 From your LDAP Explorer Tool menu, select File -> Open last configuration, and you will find the LDAP Directory is no longer empty.
+
 Next lets add one of our own data to the LDAP Directory. Create a file in C:\App\OpenLDAP\ldifdata, name it samz.ldif. The contents :
 
 
 
 dn: cn=Panji Pratomo,ou=people,dc=maxcrc,dc=com
+
 objectclass: inetOrgPerson
+
 cn: Panji Pratomo
+
 cn: P Pratomo
+
 cn: Panji P
+
 sn: panji
+
 uid: ppratomo
+
 userpassword: SomePassword
+
 carlicense: HISCAR 123
+
 homephone: 555-111-2222
+
 mail: panji.pratomo555@gmail.com
+
 mail: panji.pratomo555@mysamz.com
+
 mail: panji_pratomo555@yahoo.com
+
 description: football maniac
+
 ou: SOA
 
+
+
 dn: cn=Fahmi Satrio,ou=people,dc=maxcrc,dc=com
+
 objectclass: inetOrgPerson
+
 cn: Fahmi Satrio
+
 cn: F Satrio
+
 cn: Mi
+
 sn: fahmi
+
 uid: fsatrio
+
 userpassword: SomePassword
+
 carlicense: HISCAR 123
+
 homephone: 555-111-2222
+
 mail: f.satrio222@gmail.com
+
 mail: f.satrio222@mysamz.com
+
 mail: guest108222@fif.co.id
+
 description: tukang ngulik ga jelas
+
 ou: SOA
+
 Save the file. And open a command line and run these command 
 cd C:\App\OpenLDAP\ClientTools
+
 ldapmodify.exe -a -x -h localhost -p 389 -D "cn=manager,dc=maxcrc,dc=com" -f d:\App\OpenLDAP\ldifdata\samz.ldif -w secret 
 
 
