@@ -17,15 +17,10 @@ http://www.userbooster.de/en/support/feature-articles/openldap-for-windows-insta
 
 # Configuration
 
-There are times when programmers are asked to connect to an M$ Active Directory or OpenLDAP Server for authentication process. So that all the application will connect to the same User directory (LDAP), and ofcourse the system administrator will only manage users from one application.
+
+This tutorial is intended for programmers to install an OpenLDAP server in their computers, to grasp the essence of LDAP, and how to actually connect to one. 
 
 
-This tutorial is intended for programmers to install an OpenLDAP server in their computers, to grasp the essence of LDAP, and how to actually connect to one. It took me 15 articles to actually implement this, so i thought i'd share it to everyone.
-
-
-This tutorial however, is not intended for system administrator because the settings used in almost every step in this tutorial is the default settings.
-
-There you have it, you've been warned.
 1. Install OpenLDAP for Windows from http://www.userbooster.de/en/download/openldap-for-windows.aspx and follow its installation instruction. Install it on "C:\App\OpenLDAP"
 
 2. Accept all the default. Use the BDB (Berkley Database) as the Backend Engine.
