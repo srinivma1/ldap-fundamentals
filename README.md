@@ -7,9 +7,141 @@ Bind DN :- This is the user who is authorized to do search on LDAP directory.
 Bind Password: Authorized users password who can search LDAP directory.
 
 ldap url: ldap://hostname:389
+
+
+# Install
+
+Install OpenLDAP from following URL if you are installing on Windows:
+http://www.userbooster.de/en/support/feature-articles/openldap-for-windows-installation.aspx
+
+
+# Configuration
+
+There are times when programmers are asked to connect to an M$ Active Directory or OpenLDAP Server for authentication process. So that all the application will connect to the same User directory (LDAP), and ofcourse the system administrator will only manage users from one application.
+
+
+This tutorial is intended for programmers to install an OpenLDAP server in their computers, to grasp the essence of LDAP, and how to actually connect to one. It took me 15 articles to actually implement this, so i thought i'd share it to everyone.
+
+
+This tutorial however, is not intended for system administrator because the settings used in almost every step in this tutorial is the default settings.
+
+There you have it, you've been warned.
+
+
+aaaaaand ... here are the steps ..
+Install OpenLDAP for Windows from http://www.userbooster.de/en/download/openldap-for-windows.aspx and follow its installation instruction. Install it on "C:\App\OpenLDAP"
+Accept all the default. Use the BDB (Berkley Database) as the Backend Engine.
+Your LDAP Server is now running. To see the service just open your Windows Services and search for OpenLDAP Service. If you dont want the service to run automatically everytime the Windows restart, just change it to Manual from the Properties Dialog.
+Next, install LDAPExplorerTool from http://ldaptool.sourceforge.net/. And try to connect to your LDAP Server using these settings :
+Server Name or IP : According to your Computer Name or IP
+LDAP Port : 389 ; check the use default checkbox
+LDAP SSL Port : 636 ; check the use default checkbox
+Version : 3 (LDAP ver. 3)
+User DN : cn=Manager,dc=maxcrc,dc=com ; Uncheck the anonymous login.
+Password : secret
+Base DN (Just click the Guess Value button)
+For everything else, just accept the default value
+Click the Test Connection button. And after saving it, just click Open.
+It should open an empty LDAP directory. Next we will try to add an actual value to it.
+Create a file in C:\App\OpenLDAP\ldifdata, name it step1.ldif. The contents are :
+
+## DEFINE DIT ROOT/BASE/SUFFIX ####
+## uses RFC 2377 format
+## replace maxcrc and com as necessary below
+## or for experimentation leave as is
+
+## dcObject is an AUXILLIARY objectclass and MUST
+## have a STRUCTURAL objectclass (organization in this case)
+# this is an ENTRY sequence and is preceded by a BLANK line
+
+dn: dc=maxcrc,dc=com
+dc: maxcrc
+description: My wonderful company as much text as you want to place
+objectClass: dcObject
+objectClass: organization
+o: Maxcrc, Inc.
+
+## FIRST Level hierarchy - people 
+## uses mixed upper and lower case for objectclass
+# this is an ENTRY sequence and is preceded by a BLANK line
+
+dn: ou=people, dc=maxcrc,dc=com
+ou: people
+description: All people in organisation
+objectclass: organizationalunit
+
+## SECOND Level hierarchy
+## ADD a single entry under FIRST (people) level
+# this is an ENTRY sequence and is preceded by a BLANK line
+# the ou: Human Resources is the department name
+
+dn: cn=Robert Smith,ou=people,dc=maxcrc,dc=com
+objectclass: inetOrgPerson
+cn: Robert Smith
+cn: Robert J Smith
+cn: bob  smith
+sn: smith
+uid: rjsmith
+userpassword: rJsmitH
+carlicense: HISCAR 123
+homephone: 555-111-2222
+mail: r.smith@example.com
+mail: rsmith@example.com
+mail: bob.smith@example.com
+description: swell guy
+ou: Human Resources
+
+Save the file. And open a command line and run these command 
+cd C:\App\OpenLDAP\ClientTools
+ldapmodify.exe -a -x -h localhost -p 389 -D "cn=manager,dc=maxcrc,dc=com" -f d:\App\OpenLDAP\ldifdata\step1.ldif -w secret 
+From your LDAP Explorer Tool menu, select File -> Open last configuration, and you will find the LDAP Directory is no longer empty.
+Next lets add one of our own data to the LDAP Directory. Create a file in C:\App\OpenLDAP\ldifdata, name it samz.ldif. The contents :
+
+
+## SECOND Level hierarchy
+## ADD a single entry under FIRST (people) level
+# this is an ENTRY sequence and is preceded by a BLANK line
+# the ou: Human Resources is the department name
+
+dn: cn=Panji Pratomo,ou=people,dc=maxcrc,dc=com
+objectclass: inetOrgPerson
+cn: Panji Pratomo
+cn: P Pratomo
+cn: Panji P
+sn: panji
+uid: ppratomo
+userpassword: SomePassword
+carlicense: HISCAR 123
+homephone: 555-111-2222
+mail: panji.pratomo555@gmail.com
+mail: panji.pratomo555@mysamz.com
+mail: panji_pratomo555@yahoo.com
+description: football maniac
+ou: SOA
+
+dn: cn=Fahmi Satrio,ou=people,dc=maxcrc,dc=com
+objectclass: inetOrgPerson
+cn: Fahmi Satrio
+cn: F Satrio
+cn: Mi
+sn: fahmi
+uid: fsatrio
+userpassword: SomePassword
+carlicense: HISCAR 123
+homephone: 555-111-2222
+mail: f.satrio222@gmail.com
+mail: f.satrio222@mysamz.com
+mail: guest108222@fif.co.id
+description: tukang ngulik ga jelas
+ou: SOA
+Save the file. And open a command line and run these command 
+cd C:\App\OpenLDAP\ClientTools
+ldapmodify.exe -a -x -h localhost -p 389 -D "cn=manager,dc=maxcrc,dc=com" -f d:\App\OpenLDAP\ldifdata\samz.ldif -w secret 
+From your LDAP Explorer Tool menu, select File -> Open last configuration.
+
   
   
-  Search
+ # Search
 
 Command
 
