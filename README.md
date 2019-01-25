@@ -33,16 +33,20 @@ There you have it, you've been warned.
 3. Your LDAP Server is now running. To see the service just open your Windows Services and search for OpenLDAP Service. If you dont want the service to run automatically everytime the Windows restart, just change it to Manual from the Properties Dialog.
 4. Next, install LDAPExplorerTool from http://ldaptool.sourceforge.net/. And try to connect to your LDAP Server using these settings :
 
-Server Name or IP : According to your Computer Name or IP
-LDAP Port : 389 ; check the use default checkbox
-LDAP SSL Port : 636 ; check the use default checkbox
-Version : 3 (LDAP ver. 3)
-User DN : cn=Manager,dc=maxcrc,dc=com ; Uncheck the anonymous login.
-Password : secret
-Base DN (Just click the Guess Value button)
+ a. Server Name or IP : According to your Computer Name or IP
+ b. LDAP Port : 389 ; check the use default checkbox
+ c. LDAP SSL Port : 636 ; check the use default checkbox
+ d. Version : 3 (LDAP ver. 3)
+ e. User DN : cn=Manager,dc=maxcrc,dc=com ; Uncheck the anonymous login.
+ f. Password : secret
+ g. Base DN (Just click the Guess Value button)
+ 
 For everything else, just accept the default value
+
 Click the Test Connection button. And after saving it, just click Open.
+
 It should open an empty LDAP directory. Next we will try to add an actual value to it.
+
 Create a file in C:\App\OpenLDAP\ldifdata, name it step1.ldif. The contents are :
 
 // DEFINE DIT ROOT/BASE/SUFFIX ####
